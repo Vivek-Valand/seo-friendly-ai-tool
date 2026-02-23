@@ -84,6 +84,7 @@ class ChatController extends Controller
 
     public function send(Request $request)
     {
+        Log::info("Request",$request->all());
         $request->validate([
             'prompt' => 'required|string',
             'conversation_id' => 'nullable|string',

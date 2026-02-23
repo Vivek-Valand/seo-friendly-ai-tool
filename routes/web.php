@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\LogController;
 
 Route::get('/', [ChatController::class, 'index']);
 Route::get('/chat/new', [ChatController::class, 'newChat'])->name('chat.new');
@@ -10,6 +11,8 @@ Route::get('/chat/sidebar-history', [ChatController::class, 'historyPartial'])->
 Route::get('/chat/{id}', [ChatController::class, 'show'])->name('chat.show');
 Route::delete('/chat/{id}', [ChatController::class, 'destroy'])->name('chat.destroy');
 Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
+Route::get('/log-details', [LogController::class, 'show'])->name('logs.details');
+Route::post('/log-details/clear', [LogController::class, 'clear'])->name('logs.clear');
 
 Route::get('/migrate-db', function () {
     try {

@@ -84,19 +84,19 @@ class ChatController extends Controller
 
     public function send(Request $request)
     {
-        Log::info("Request",$request->all());
         $request->validate([
             'prompt' => 'required|string',
             'conversation_id' => 'nullable|string',
-        ]);
-
-        // Mock user for persistence as requested
-        $user = (object) ['id' => 1];
-
-        $agent = SEOFriendlyAgent::make()
+            ]);
+            
+            // Mock user for persistence as requested
+            $user = (object) ['id' => 1];
+            
+            $agent = SEOFriendlyAgent::make()
             ->forUser($user);
-
-        $conversationId = $request->input('conversation_id');
+            
+            $conversationId = $request->input('conversation_id');
+            Log::info("Request",$request->all());
         if (is_string($conversationId)) {
             $conversationId = trim($conversationId);
         }

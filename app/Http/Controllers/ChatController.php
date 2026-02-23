@@ -96,7 +96,7 @@ class ChatController extends Controller
             ->forUser($user);
             
             $conversationId = $request->input('conversation_id');
-            Log::info("Request",$request->all());
+            
         if (is_string($conversationId)) {
             $conversationId = trim($conversationId);
         }

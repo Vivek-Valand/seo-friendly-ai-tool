@@ -84,19 +84,12 @@ return [
             'key' => env('GEMINI_API_KEY'),
             'models' => [
                 'text' => [
-                    'default' => env('GEMINI_MODEL', 'gemini-1.5-flash'),
+                    'default' => env('GEMINI_MODEL', 'gemini-2.5-flash'),
                 ],
             ],
-            // Add this section if your SDK version supports driver options
-            'options' => [
-                'generationConfig' => [
-                    'thinking_config' => [
-                        'include_thoughts' => false,
-                        'thinking_budget' => 0
-                    ]
-                ]
-            ]
         ],
+
+
 
         'groq' => [
             'driver' => 'groq',

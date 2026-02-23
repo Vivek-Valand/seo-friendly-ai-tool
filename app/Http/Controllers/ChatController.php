@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Laravel\Ai\Exceptions\RateLimitedException;
+use Laravel\Ai\Contracts\ConversationStore;
 
 use App\Ai\Agents\SEOFriendlyAgent;
 use Laravel\Ai\Facades\Ai;
@@ -82,7 +83,6 @@ class ChatController extends Controller
 
     public function send(Request $request)
     {
-        dd($request->all());
         $request->validate([
             'prompt' => 'required|string',
             'conversation_id' => 'nullable|string',
@@ -94,8 +94,16 @@ class ChatController extends Controller
         $agent = SEOFriendlyAgent::make()
             ->forUser($user);
 
-        if ($request->conversation_id) {
-            $agent->continue($request->conversation_id, $user);
+        $conversationId = $request->input('conversation_id');
+        if (is_string($conversationId)) {
+            $conversationId = trim($conversationId);
+        }
+        if ($conversationId === '') {
+            $conversationId = null;
+        }
+
+        if ($conversationId) {
+            $agent->continue($conversationId, $user);
         }
 
         try {
@@ -107,9 +115,13 @@ class ChatController extends Controller
         }
 
         $aiContent = app(MarkdownRenderer::class)->toHtml((string) $response);
+        $conversationId = $agent->currentConversation()
+            ?? $response->conversationId
+            ?? resolve(ConversationStore::class)->latestConversationId($user->id);
+
         return response()->json([
             'message' => (string) $aiContent,
-            'conversation_id' => $agent->currentConversation(),
+            'conversation_id' => $conversationId,
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laravel\Ai\Exceptions\RateLimitedException;
 use Laravel\Ai\Contracts\ConversationStore;
 
@@ -112,6 +113,15 @@ class ChatController extends Controller
             return response()->json([
                 'message' => 'The AI provider is rate limiting requests. Please wait a moment and try again.',
             ], 429);
+        } catch (\Throwable $e) {
+            Log::error('AI prompt failed', [
+                'error' => $e->getMessage(),
+                'exception' => $e,
+            ]);
+
+            return response()->json([
+                'message' => 'Server error while processing the request.',
+            ], 500);
         }
 
         $aiContent = app(MarkdownRenderer::class)->toHtml((string) $response);

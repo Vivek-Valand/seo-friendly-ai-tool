@@ -1,21 +1,30 @@
 @php
-    $history = $history ?? \Illuminate\Support\Facades\DB::table('agent_conversations')
-        ->where('user_id', 1)
-        ->orderBy('updated_at', 'desc')
-        ->get();
+    $history =
+        $history ??
+        \Illuminate\Support\Facades\DB::table('agent_conversations')
+            ->where('user_id', 1)
+            ->orderBy('updated_at', 'desc')
+            ->get();
 @endphp
 
 @if ($history->count() > 0)
     @foreach ($history as $item)
         <div @click="$dispatch('load-chat', { id: '{{ $item->id }}' })"
-            class="group cursor-pointer p-2 rounded-xl hover:bg-slate-800/30 border border-transparent hover:border-slate-700/30 transition-all relative flex items-center gap-3">
+            class="group cursor-pointer p-2.5 rounded-xl transition-all duration-200 relative flex items-center gap-3"
+            :class="$store.chat && $store.chat.activeId == '{{ $item->id }}' ? 'bg-slate-800' : 'hover:bg-slate-800/40'">
             <div class="flex items-center gap-3 flex-1 overflow-hidden" :class="!sidebarOpen && 'justify-center'">
-                <div class="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0">
-                    <span class="text-sm text-slate-500">#</span>
+                <div class="w-8 h-8 rounded-full bg-slate-700/50 flex items-center justify-center flex-shrink-0"
+                    :class="!sidebarOpen && 'mx-auto'">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-indigo-400" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
                 </div>
-                <div class="overflow-hidden" x-show="sidebarOpen" x-transition>
-                    <p class="text-sm font-medium text-slate-300 truncate">{{ $item->title ?? 'Previous Chat' }}</p>
-                    <p class="text-xs text-slate-500 truncate">
+                <div class="overflow-hidden" x-show="sidebarOpen" x-transition:enter="duration-200">
+                    <p class="text-[13px] font-medium text-slate-200 truncate leading-tight">
+                        {{ $item->title ?? 'Previous Chat' }}</p>
+                    <p class="text-[11px] text-slate-500 truncate mt-0.5">
                         {{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</p>
                 </div>
             </div>

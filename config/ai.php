@@ -84,7 +84,7 @@ return [
             'key' => env('GEMINI_API_KEY'),
             'models' => [
                 'text' => [
-                    'default' => env('GEMINI_MODEL', 'gemini-2.5-flash'),
+                    'default' => env('GEMINI_MODEL', 'gemini-3-flash-preview'),
                 ],
             ],
         ],

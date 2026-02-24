@@ -21,10 +21,10 @@
     </template>
 
     <!-- Messages -->
-    <div class="flex flex-col gap-6 sm:gap-8 px-1 sm:px-8 md:px-12 lg:px-20"> <!-- Enhanced responsive padding -->
+    <div class="flex flex-col gap-6 sm:gap-10 px-2 sm:px-4 md:px-6 lg:px-10 py-2 overflow-x-hidden"> <!-- Enhanced responsive padding -->
         <template x-for="(msg, index) in messages" :key="index">
             <div
-                :class="msg.role === 'user' ? 'flex items-start gap-4 flex-row-reverse' : 'flex items-start gap-4'">
+                :class="msg.role === 'user' ? 'flex items-start gap-3 sm:gap-4 flex-row-reverse' : 'flex items-start gap-3 sm:gap-4'">
                 <!-- Avatar -->
                 <div class="w-9 h-9 rounded-xl flex-shrink-0 flex items-center justify-center text-xs font-bold shadow-lg border border-slate-700/50"
                     :class="msg.role === 'user' ? 'bg-slate-800 text-indigo-400' : 'bg-indigo-600 text-white'">
@@ -32,17 +32,30 @@
                 </div>
 
                 <!-- Context Bubble -->
-                <div class="flex flex-col max-w-[92%] sm:max-w-[80%]"
+                <div class="flex flex-col w-full max-w-[100%] sm:max-w-[98%] md:max-w-[92%] lg:max-w-[86%] min-w-0"
                     :class="msg.role === 'user' ? 'items-end' : 'items-start'">
                     <div class="p-4 rounded-2xl border transition-all duration-300 relative group/msg"
                         :class="msg.role === 'user' ?
                             'rounded-tr-none bg-indigo-600 text-white border-indigo-500 shadow-xl shadow-indigo-950/30' :
                             'rounded-tl-none bg-slate-800/80 backdrop-blur-sm text-slate-200 border-slate-700/50 shadow-lg'">
-                        <div class="prose prose-invert prose-sm max-w-none whitespace-pre-wrap" x-html="msg.content">
+                        <div class="prose prose-invert prose-sm sm:prose-base max-w-none whitespace-pre-wrap break-words leading-relaxed text-[13px] sm:text-base chat-bubble-content" x-html="msg.content">
                         </div>
                     </div>
-                    <span class="text-[10px] text-slate-500 mt-1 font-medium tracking-wider uppercase"
-                        x-text="msg.role === 'user' ? 'You' : 'SEOFriendly AI'"></span>
+                    <div class="flex items-center gap-2 mt-1.5">
+                        <span class="text-[10px] text-slate-500 font-medium tracking-wider uppercase"
+                            x-text="msg.role === 'user' ? 'You' : 'SEOFriendly AI'"></span>
+
+                        <template x-if="msg.role === 'assistant'">
+                            <button @click="copyToClipboard(msg.content, $event)" title="Copy Chat"
+                                class="text-slate-500 hover:text-indigo-400 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                                </svg>
+                            </button>
+                        </template>
+                    </div>
                 </div>
             </div>
         </template>

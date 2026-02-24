@@ -1,0 +1,116 @@
+/* Custom Chat Styles for Animations and Layout Refinements */
+
+.gradient-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(to right, #818cf8, #c084fc);
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.prose table th,
+.prose table td {
+    padding: 0.75rem;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    text-align: left;
+}
+
+.prose table th {
+    background-color: rgba(30, 41, 59, 0.5);
+    font-weight: 600;
+}
+
+.prose pre {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.prose code {
+    color: #a5b4fc;
+}
+
+/* Chat bubble: make tables/code blocks scroll within bubble */
+.chat-bubble-content pre,
+.chat-bubble-content table {
+    display: block;
+    max-width: 100%;
+    max-height: 240px;
+    overflow: auto;
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(148, 163, 184, 0.18);
+    border-radius: 10px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-gutter: stable;
+}
+
+.chat-bubble-content {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+.chat-bubble-content pre {
+    padding: 0.75rem;
+}
+
+.chat-bubble-content table {
+    width: max-content;
+    min-width: 100%;
+}
+
+.chat-bubble-content table th,
+.chat-bubble-content table td {
+    white-space: nowrap;
+}
+
+/* Ensure empty states scale nicely */
+@media (max-width: 640px) {
+    .empty-state-icon {
+        width: 4rem;
+        height: 4rem;
+    }
+}
+
+/* Custom Scrollbar for Chat */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.1);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.2);
+}
+
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.1) transparent;
+}

@@ -23,7 +23,7 @@
         try {
             await axios.delete(`/chat/${this.confirmDeleteId}`);
             if (this.confirmDeleteId === '{{ $conversationId ?? '' }}' || window.location.pathname.includes(this.confirmDeleteId)) {
-                window.location.href = '/chat/new';
+                window.location.href = '/';
             } else {
                 window.location.reload();
             }
@@ -33,72 +33,74 @@
             this.showDeleteModal = false;
         }
     }
-}">
-<aside
-    class="flex flex-col border-r border-slate-800 transition-all duration-300 ease-in-out glass fixed inset-y-0 left-0 z-50 lg:relative shrink-0 overflow-hidden"
-    :class="sidebarOpen ? 'w-80 translate-x-0' : 'w-0 -translate-x-full lg:w-16 lg:translate-x-0'">
-    <!-- Header -->
-    <div class="p-4 flex items-center justify-between border-b border-slate-800/50 min-h-[73px]">
-        <div class="flex items-center gap-3 overflow-hidden" x-show="sidebarOpen" x-transition:enter="delay-150">
-            <div
-                class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </div>
-            <h1 class="text-xl font-bold tracking-tight text-white whitespace-nowrap">SEOFriendly</h1>
-        </div>
-
-        <button @click="sidebarOpen = !sidebarOpen"
-            class="p-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
-            <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-            </svg>
-            <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-            </svg>
-        </button>
-    </div>
-
-    <!-- New Chat Button -->
-    <div class="px-4 py-4" x-show="sidebarOpen" x-transition:enter="delay-150">
-        <button @click="window.location.href='{{ route('chat.new') }}'"
-            class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-slate-800 transition-all group relative overflow-hidden shadow-sm">
-            <div class="flex items-center gap-3">
+}" class="bg-slate-900 p-1">
+    <aside
+        class="flex flex-col border-r border-slate-800 transition-all duration-300 ease-in-out bg-slate-900 fixed inset-y-0 left-0 z-50 lg:relative shrink-0 overflow-hidden"
+        :class="sidebarOpen ? 'w-80 translate-x-0' : 'w-0 -translate-x-full lg:w-16 lg:translate-x-0'">
+        <!-- Header -->
+        <div class="p-4 flex items-center justify-between border-b border-slate-800/50 min-h-[73px] bg-slate-900">
+            <div class="flex items-center gap-3 overflow-hidden" x-show="sidebarOpen" x-transition:enter="delay-150">
                 <div
-                    class="w-8 h-8 rounded-lg bg-indigo-600/10 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-inner">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform group-hover:rotate-90"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center flex-shrink-0 shadow-lg shadow-indigo-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </div>
-                <span class="text-sm font-semibold text-slate-300 group-hover:text-white">New Chat</span>
+                <h1 class="text-xl font-bold tracking-tight text-white whitespace-nowrap">SEOFriendly</h1>
             </div>
-            {{-- <div
+
+            <button @click="sidebarOpen = !sidebarOpen"
+                class="p-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors">
+                <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+                </svg>
+                <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- New Chat Button -->
+        <div class="px-4 py-4 bg-slate-900" x-show="sidebarOpen" x-transition:enter="delay-150">
+            <button @click="$dispatch('new-chat')"
+                class="w-full flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-slate-800 transition-all group relative overflow-hidden shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-8 h-8 rounded-lg bg-indigo-600/10 flex items-center justify-center text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-inner">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 transition-transform group-hover:rotate-90" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                    </div>
+                    <span class="text-sm font-semibold text-slate-300 group-hover:text-white">New Chat</span>
+                </div>
+                {{-- <div
                 class="text-[10px] font-bold text-slate-500 group-hover:text-indigo-400 opacity-40 group-hover:opacity-100 transition-opacity pr-1">
                 ⌘N
             </div> --}}
-        </button>
-    </div>
-    <div class="px-2 py-4 flex justify-center" x-show="!sidebarOpen">
-        <button @click="window.location.href='{{ route('chat.new') }}'"
-            class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-slate-800 text-slate-400 hover:text-white transition-all shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-        </button>
-    </div>
+            </button>
+        </div>
+        <div class="px-2 py-4 flex justify-center bg-slate-900" x-show="!sidebarOpen">
+            <button @click="$dispatch('new-chat')"
+                class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-indigo-500/50 hover:bg-slate-800 text-slate-400 hover:text-white transition-all shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+            </button>
+        </div>
 
-    <!-- Chat List (Dynamic History) -->
-    <div class="flex-1 overflow-y-auto overflow-x-hidden p-2 space-y-2" id="chat-history-list">
-        @include('chat.partials.sidebar-history')
-    </div>
+        <!-- Chat List (Dynamic History) -->
+        <div class="flex-1 overflow-y-auto overflow-x-hidden p-1 space-y-2 bg-slate-900" id="chat-history-list">
+            @include('chat.partials.sidebar-history')
+        </div>
 
     </aside>
 
@@ -116,7 +118,7 @@
                             d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-white">Delete Chat?</h3>
+                <h3 class="text-xl font-bold text-white">Delete Chat</h3>
                 <p class="text-slate-400 text-sm">This will permanently remove this conversation history. This action
                     cannot be undone.</p>
                 <div class="flex gap-3 pt-4">

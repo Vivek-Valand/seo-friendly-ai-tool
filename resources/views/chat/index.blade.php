@@ -3,11 +3,11 @@
 @section('content')
     <!-- Push external assets -->
     @push('styles')
-        @vite('resources/css/chat.css')
+        <link rel="stylesheet" href="{{ asset('css/chat.css') }}">
     @endpush
 
     @push('scripts')
-        @vite('resources/js/chat.js')
+        <script src="{{ asset('js/chat.js') }}" defer></script>
     @endpush
 
     <div class="flex flex-col h-full relative" x-data="chatApp({{ Js::from($messages) }}, '{{ $conversationId }}', '{{ route('chat.sidebar_history') }}', '{{ route('chat.send') }}')" @load-chat.window="loadConversation($event.detail.id)"

@@ -10,23 +10,18 @@ use Laravel\Ai\Contracts\ConversationStore;
 use App\Ai\Agents\SEOFriendlyAgent;
 use Laravel\Ai\Facades\Ai;
 use App\Services\MarkdownRenderer;
+use Illuminate\Support\Facades\Storage;
 
 class ChatController extends Controller
 {
-    public function index()
+    public function index($id = null)
     {
-        // Fetch last conversation messages for persistence
-        $conversation = \Illuminate\Support\Facades\DB::table('agent_conversations')
-            ->where('user_id', 1)
-            ->orderBy('updated_at', 'desc')
-            ->first();
-
         $messages = [];
-        $conversationId = null;
-        if ($conversation) {
-            $conversationId = $conversation->id;
+        $conversationId = $id;
+
+        if ($id) {
             $messages = \Illuminate\Support\Facades\DB::table('agent_conversation_messages')
-                ->where('conversation_id', $conversationId)
+                ->where('conversation_id', $id)
                 ->orderBy('created_at', 'asc')
                 ->get()
                 ->map(fn($m) => [
@@ -35,18 +30,22 @@ class ChatController extends Controller
                         ? app(MarkdownRenderer::class)->toHtml((string) $m->content)
                         : (string) $m->content
                 ]);
+            
+            if ($messages->isEmpty()) {
+                return redirect()->route('home');
+            }
         }
 
         return view('chat.index', compact('messages', 'conversationId'));
     }
 
-    public function newChat()
-    {
-        return view('chat.index', ['messages' => [], 'conversationId' => null]);
-    }
 
-    public function show($id)
+    public function show(\Illuminate\Http\Request $request, $id)
     {
+        if (!$request->expectsJson() && !$request->ajax()) {
+            return redirect()->route('chat.open', ['id' => $id]);
+        }
+        
         $messages = \Illuminate\Support\Facades\DB::table('agent_conversation_messages')
             ->where('conversation_id', $id)
             ->orderBy('created_at', 'asc')
@@ -79,7 +78,31 @@ class ChatController extends Controller
         \Illuminate\Support\Facades\DB::table('agent_conversations')->where('id', $id)->delete();
         \Illuminate\Support\Facades\DB::table('agent_conversation_messages')->where('conversation_id', $id)->delete();
 
+        Storage::disk('public')->delete("reports/seo_report_{$id}.doc");
+        Storage::disk('public')->delete("reports/seo_report_{$id}.md");
+
         return response()->json(['success' => true]);
+    }
+
+    public function downloadReport($id)
+    {
+        $fileName = "reports/seo_report_{$id}.doc";
+        if (!Storage::disk('public')->exists($fileName)) {
+            $fileName = "reports/seo_report_{$id}.md";
+        }
+
+        if (!Storage::disk('public')->exists($fileName)) {
+            abort(404);
+        }
+
+        $path = Storage::disk('public')->path($fileName);
+        $downloadName = "seo_report_{$id}." . pathinfo($fileName, PATHINFO_EXTENSION);
+
+        return response()->download($path, $downloadName, [
+            'Content-Type' => $fileName === "reports/seo_report_{$id}.doc"
+                ? 'application/msword; charset=UTF-8'
+                : 'text/markdown; charset=UTF-8',
+        ]);
     }
 
     public function send(Request $request)

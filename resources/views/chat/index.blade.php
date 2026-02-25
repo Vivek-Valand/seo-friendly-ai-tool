@@ -7,11 +7,21 @@
     @endpush
 
     @push('scripts')
-        <script src="{{ asset('js/chat.js') }}" defer></script>
+        <script src="{{ asset('js/chat.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                if (window.ChatApp) {
+                    window.ChatApp.init(
+                        '{{ $conversationId }}',
+                        '{{ route('chat.sidebar_history') }}',
+                        '{{ route('chat.send') }}'
+                    );
+                }
+            });
+        </script>
     @endpush
 
-    <div class="flex flex-col h-full relative" x-data="chatApp({{ Js::from($messages) }}, '{{ $conversationId }}', '{{ route('chat.sidebar_history') }}', '{{ route('chat.send') }}')" @load-chat.window="loadConversation($event.detail.id)"
-        @new-chat.window="newChat()">
+    <div class="flex flex-col h-full relative" id="chat-app-container">
 
         <!-- Conversation Area - Scrollable -->
         <div class="flex-1 overflow-y-auto custom-scrollbar" id="chat-scroll-container">

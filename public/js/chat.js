@@ -165,7 +165,7 @@ window.ChatApp = {
         this.setLoading(true);
 
         try {
-            const response = await $.get(`/api/chat/${id}`);
+            const response = await $.get(`/chat/${id}/messages`);
             const $container = $('#chat-messages-container');
             $container.empty();
             

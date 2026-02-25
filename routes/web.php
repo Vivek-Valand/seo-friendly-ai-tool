@@ -7,7 +7,7 @@ use App\Http\Controllers\LogController;
 
 Route::get('/', [ChatController::class, 'index'])->name('home');
 Route::get('/c/{id}', [ChatController::class, 'index'])->name('chat.open');
-Route::get('/api/chat/{id}', [ChatController::class, 'show'])->name('chat.api_show');
+Route::get('/chat/{id}/messages', [ChatController::class, 'show'])->name('chat.messages');
 Route::get('/reports/{id}', [ChatController::class, 'downloadReport'])->name('chat.report');
 Route::delete('/chat/{id}', [ChatController::class, 'destroy'])->name('chat.destroy');
 Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');

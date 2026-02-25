@@ -53,10 +53,69 @@ window.ChatApp = {
 
         // Load chat event
         $(document).on('click', '.load-chat-item', function(e) {
-            if ($(e.target).closest('.delete-chat-item').length) return;
+            if ($(e.target).closest('.delete-chat-item, .chat-context-menu-btn, .chat-context-menu, .chat-title-input').length) return;
             e.preventDefault();
             const id = $(this).data('id');
             self.loadConversation(id);
+        });
+
+        // Context menu toggle
+        $(document).on('click', '.chat-context-menu-btn', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const $menu = $(this).siblings('.chat-context-menu');
+            $('.chat-context-menu').not($menu).addClass('hidden');
+            $menu.toggleClass('hidden');
+        });
+
+        // Close menu on click outside
+        $(document).on('click', function() {
+            $('.chat-context-menu').addClass('hidden');
+        });
+
+        // Rename action
+        $(document).on('click', '.rename-chat-btn', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const $item = $(this).closest('.load-chat-item');
+            const $text = $item.find('.chat-title-text');
+            const $input = $item.find('.chat-title-input');
+            
+            $('.chat-context-menu').addClass('hidden');
+            $text.addClass('hidden');
+            $input.removeClass('hidden').focus().select();
+        });
+
+        // Rename submit (Blur)
+        $(document).on('blur', '.chat-title-input', function() {
+            const $input = $(this);
+            const $text = $input.siblings('.chat-title-text');
+            const newTitle = $input.val().trim();
+            const id = $input.data('id');
+            const oldTitle = $text.text().trim();
+
+            if (newTitle && newTitle !== oldTitle) {
+                self.renameChat(id, newTitle, $text, $input);
+            } else {
+                $input.addClass('hidden');
+                $text.removeClass('hidden');
+                $input.val(oldTitle);
+            }
+        });
+
+        // Rename submit (Enter)
+        $(document).on('keydown', '.chat-title-input', function(e) {
+            if (e.which === 13) {
+                e.preventDefault();
+                $(this).blur();
+            }
+            if (e.which === 27) {
+                const $input = $(this);
+                const $text = $input.siblings('.chat-title-text');
+                $input.addClass('hidden');
+                $text.removeClass('hidden');
+                $input.val($text.text().trim());
+            }
         });
 
         // New chat button
@@ -75,6 +134,7 @@ window.ChatApp = {
             e.preventDefault();
             e.stopPropagation();
             self.confirmDeleteId = $(this).data('id');
+            $('.chat-context-menu').addClass('hidden');
             $('#delete-modal').removeClass('hidden');
         });
 
@@ -205,6 +265,26 @@ window.ChatApp = {
             this.updateActiveSidebarItem();
         } catch (error) {
             console.error('Failed to refresh sidebar history:', error);
+        }
+    },
+
+    async renameChat(id, title, $text, $input) {
+        try {
+            await $.ajax({
+                url: `/chat/${id}`,
+                method: 'PATCH',
+                data: {
+                    title: title,
+                    _token: $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $text.text(title);
+        } catch (error) {
+            console.error('Rename failed:', error);
+            $input.val($text.text().trim());
+        } finally {
+            $input.addClass('hidden');
+            $text.removeClass('hidden');
         }
     },
 

@@ -84,6 +84,22 @@ class ChatController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        \Illuminate\Support\Facades\DB::table('agent_conversations')
+            ->where('id', $id)
+            ->update([
+                'title' => $request->title,
+                'updated_at' => now()
+            ]);
+
+        return response()->json(['success' => true]);
+    }
+
     public function downloadReport($id)
     {
         $fileName = "reports/seo_report_{$id}.doc";

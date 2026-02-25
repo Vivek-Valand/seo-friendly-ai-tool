@@ -100,9 +100,9 @@
                     cannot be undone.</p>
                 <div class="flex gap-3 pt-4">
                     <button id="close-delete-modal"
-                        class="flex-1 px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-medium hover:bg-slate-700 transition-colors border border-slate-700">Cancel</button>
+                        class="flex-1 px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-medium hover:bg-slate-700 hover:text-white transition-all duration-200 border border-slate-700 hover:border-slate-600">Cancel</button>
                     <button id="confirm-delete-btn"
-                        class="flex-1 px-4 py-2.5 rounded-xl bg-rose-600 text-white font-medium hover:bg-rose-500 transition-colors shadow-lg shadow-rose-500/20">Delete</button>
+                        class="flex-1 px-4 py-2.5 rounded-xl bg-rose-600 text-white font-medium hover:bg-rose-500 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30">Delete</button>
                 </div>
             </div>
         </div>

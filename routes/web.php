@@ -10,6 +10,7 @@ Route::get('/c/{id}', [ChatController::class, 'index'])->name('chat.open');
 Route::get('/chat/{id}/messages', [ChatController::class, 'show'])->name('chat.messages');
 Route::get('/reports/{id}', [ChatController::class, 'downloadReport'])->name('chat.report');
 Route::delete('/chat/{id}', [ChatController::class, 'destroy'])->name('chat.destroy');
+Route::patch('/chat/{id}', [ChatController::class, 'update'])->name('chat.update');
 Route::post('/chat/send', [ChatController::class, 'send'])->name('chat.send');
 Route::get('/chat/sidebar-history', [ChatController::class, 'historyPartial'])->name('chat.sidebar_history');
 Route::get('/log-details', [LogController::class, 'show'])->name('logs.details');

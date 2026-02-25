@@ -6,7 +6,7 @@ window.ChatApp = {
     confirmDeleteId: null,
 
     init(initialConversationId, historyUrl, sendUrl) {
-        console.log('ChatApp: Initializing...', { initialConversationId, historyUrl, sendUrl });
+        // console.log('ChatApp: Initializing...', { initialConversationId, historyUrl, sendUrl });
         this.conversationId = initialConversationId;
         this.historyUrl = historyUrl;
         this.sendUrl = sendUrl;
@@ -17,7 +17,7 @@ window.ChatApp = {
         this.scrollToBottom();
         this.updateActiveSidebarItem();
         this.toggleSendButton(); // Initial state
-        console.log('ChatApp: Initialization complete.');
+        // console.log('ChatApp: Initialization complete.');
     },
 
     setupEventListeners() {

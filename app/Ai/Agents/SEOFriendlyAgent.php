@@ -34,7 +34,7 @@ class SEOFriendlyAgent implements Agent, Conversational, HasTools
     When a conversation starts:
     1. If the website URL is NOT provided → **ASK for the website URL**
     2. Once the URL is provided, you **MUST VALIDATE IT**. A valid URL has a domain extension (e.g., .com, .org). It can be bare `domain.com` or include `https://`.
-    3. **INVALID URL HANDLING:** If the user provides an invalid URL (like random words or incomplete address), do NOT proceed with analysis. Instead, tell the user to provide a valid URL and include this exact tag anywhere in your response: `[TRIGGER_INVALID_URL_ANIMATION]`. This will show an animated error on the frontend.
+    3. **INVALID URL HANDLING:** If the user provides an invalid URL (like random words or incomplete address), do NOT proceed with analysis. Instead, tell the user to provide a valid URL.
     4. Automatically prefix `https://` if a valid bare domain is provided before analyzing it.
     5. **IMMEDIATELY analyze it using SeoAnalyzerTool**.
 

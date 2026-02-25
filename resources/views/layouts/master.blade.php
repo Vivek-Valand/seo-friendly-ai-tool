@@ -15,13 +15,7 @@
 
     <!-- Styles & Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
     @stack('styles')
-
-    @stack('scripts')
-
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
         body {
@@ -56,14 +50,10 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        [x-cloak] {
-            display: none !important;
-        }
     </style>
 </head>
 
-<body class="h-full text-slate-200 antialiased overflow-hidden" x-data="{ sidebarOpen: true }">
+<body class="h-full text-slate-200 antialiased overflow-hidden sidebar-open">
     <div class="flex h-full">
         <!-- Sidebar -->
         @include('chat.partials.sidebar')
@@ -73,6 +63,9 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    @stack('scripts')
 </body>
 
 </html>

@@ -28,13 +28,16 @@
     border-collapse: collapse;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    table-layout: auto;
 }
 
 .prose table th,
 .prose table td {
-    padding: 0.75rem;
+    padding: 0.6rem 0.8rem;
     border: 1px solid rgba(148, 163, 184, 0.2);
     text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
 }
 
 .prose table th {
@@ -45,43 +48,136 @@
 .prose pre {
     background-color: #0f172a !important;
     border: 1px solid rgba(148, 163, 184, 0.1);
+    margin: 1rem 0;
+    padding: 0;
 }
 
 .prose code {
     color: #a5b4fc;
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+.prose :not(pre) > code {
+    background: rgba(30, 41, 59, 0.8) !important;
+    padding: 0.2rem 0.4rem !important;
+    border-radius: 0.25rem;
+}
+
+.prose p, 
+.prose ul, 
+.prose ol {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4 {
+    margin-top: 1rem !important;
+    margin-bottom: 0.5rem !important;
 }
 
 /* Chat bubble: make tables/code blocks scroll within bubble */
-.chat-bubble-content pre,
-.chat-bubble-content table {
+.message-content pre {
     display: block;
+    width: 100%;
     max-width: 100%;
-    max-height: 240px;
+    max-height: 450px;
     overflow: auto;
-    background: rgba(15, 23, 42, 0.75);
-    border: 1px solid rgba(148, 163, 184, 0.18);
-    border-radius: 10px;
+    background: #020617 !important;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 12px;
     -webkit-overflow-scrolling: touch;
-    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
+    margin: 1rem 0;
+    padding: 1rem;
+    white-space: pre; /* Don't wrap code content */
+    box-sizing: border-box;
 }
 
-.chat-bubble-content {
+.message-content table {
+    background: #020617 !important;
+    margin: 0;
+}
+
+/* Scroll wrapper for tables */
+/* .table-wrapper {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    max-height: 450px;
+    overflow: auto;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 12px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    margin: 1rem 0;
+    box-sizing: border-box;
+}
+
+.table-wrapper table {
+    width: max-content;
+    min-width: 100%;
+} */
+
+.table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    max-height: 450px;
+
+    overflow-x: auto;
+    overflow-y: auto;
+
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 12px;
+    margin: 1rem 0;
+
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+.table-wrapper table {
+    border-collapse: collapse;
+    min-width: 100%;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+    white-space: nowrap;
+}
+
+.message-content {
+    max-width: 100%;
+    min-width: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.message-content p,
+.message-content li {
     overflow-wrap: anywhere;
     word-break: break-word;
 }
 
-.chat-bubble-content pre {
-    padding: 0.75rem;
+.message-bubble {
+    width: fit-content; /* Fix bubble stretching */
+    min-width: 50px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
-.chat-bubble-content table {
-    width: max-content;
-    min-width: 100%;
+.message-wrapper {
+    max-width: 100%;
+    min-width: 0;
 }
 
-.chat-bubble-content table th,
-.chat-bubble-content table td {
-    white-space: nowrap;
+/* Ensure bubbles don't push layout on mobile */
+@media (max-width: 640px) {
+    .message-bubble {
+        max-width: calc(100vw - 7rem) !important;
+        padding: 0.75rem 1rem !important;
+    }
 }
 
 /* Ensure empty states scale nicely */
@@ -113,4 +209,65 @@
 .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: rgba(148, 163, 184, 0.1) transparent;
+}
+
+/* Sidebar transition classes */
+.sidebar-container {
+    transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Sidebar visibility states */
+body:not(.sidebar-open) .sidebar-header-logo,
+body:not(.sidebar-open) .sidebar-new-chat-large,
+body:not(.sidebar-open) .sidebar-item-text,
+body:not(.sidebar-open) .sidebar-item-delete,
+body:not(.sidebar-open) .sidebar-no-history,
+body:not(.sidebar-open) .sidebar-icon-open {
+    display: none !important;
+}
+
+body:not(.sidebar-open) .sidebar-icon-closed,
+body:not(.sidebar-open) .sidebar-new-chat-small {
+    display: flex !important;
+}
+
+body:not(.sidebar-open) .sidebar-item-content {
+    justify-content: center;
+}
+
+body:not(.sidebar-open) .sidebar-item-icon {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 1023px) {
+    #main-sidebar {
+        width: 20rem;
+        transform: translateX(-100%);
+    }
+    
+    body.sidebar-open #main-sidebar {
+        transform: translateX(0);
+    }
+    
+    body.sidebar-open #sidebar-backdrop {
+        display: block !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    body:not(.sidebar-open) #main-sidebar {
+        width: 4rem;
+    }
+    
+    body.sidebar-open #main-sidebar {
+        width: 20rem;
+    }
+}
+
+/* Glassmorphism for modal */
+.glass {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }

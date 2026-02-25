@@ -84,7 +84,7 @@
                 <div
                     class="p-2.5 sm:p-4 rounded-2xl border transition-all duration-300 relative group/msg message-bubble w-fit">
                     <div
-                        class="prose prose-invert prose-sm sm:prose-base max-w-none whitespace-pre-wrap break-words leading-relaxed text-[13px] sm:text-base message-content">
+                        class="prose prose-invert prose-sm sm:prose-base max-w-none  leading-relaxed text-[13px] sm:text-base message-content">
                     </div>
                 </div>
                 <div class="flex items-center gap-2 mt-1.5">

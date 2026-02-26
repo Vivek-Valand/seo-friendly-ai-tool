@@ -31,11 +31,22 @@ class SeoAnalyzerTool implements Tool
         }
 
         try {
+            $headers = [
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            ];
+
+            $head = \Illuminate\Support\Facades\Http::timeout(10)
+                ->withHeaders($headers)
+                ->head($url);
+
+            if ($head->failed() || $head->status() >= 400) {
+                $status = $head->status();
+                return "Error: The URL '$url' is not reachable (HTTP $status). Please check the URL and try again.";
+            }
+
             $startTime = microtime(true);
             $response = \Illuminate\Support\Facades\Http::timeout(15)
-                ->withHeaders([
-                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-                ])
+                ->withHeaders($headers)
                 ->get($url);
             
             $loadTimeMs = round((microtime(true) - $startTime) * 1000);
@@ -106,7 +117,7 @@ class SeoAnalyzerTool implements Tool
             ]);
 
         } catch (\Exception $e) {
-            return "An internal error occurred while analyzing the URL: " . $e->getMessage();
+            return "Error: Unable to verify that '$url' is reachable. Please check the URL and try again.";
         }
     }
 

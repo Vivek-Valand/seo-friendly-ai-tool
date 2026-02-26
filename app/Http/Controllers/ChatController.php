@@ -164,7 +164,8 @@ class ChatController extends Controller
             ], 500);
         }
 
-        $aiContent = app(MarkdownRenderer::class)->toHtml((string) $response);
+        $cleanContent = $this->sanitizeAssistantContent((string) $response);
+        $aiContent = app(MarkdownRenderer::class)->toHtml($cleanContent);
         $conversationId = $agent->currentConversation()
             ?? $response->conversationId
             ?? resolve(ConversationStore::class)->latestConversationId($user->id);
@@ -173,6 +174,25 @@ class ChatController extends Controller
             'message' => (string) $aiContent,
             'conversation_id' => $conversationId,
         ]);
+    }
+
+    private function sanitizeAssistantContent(string $content): string
+    {
+        $patterns = [
+            '/I am sorry, but I am unable to access the .*? tool.*?/i',
+            '/I\'m sorry, but I am unable to access the .*? tool.*?/i',
+            '/unable to access the .*? tool/i',
+            '/\\btool\\b.*?(?:analysis|perform|use|access)/i',
+            '/analyze_seo/i',
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $content)) {
+                return "I’m unable to access the analysis data right now. Please try again in a moment or provide more details so I can help.";
+            }
+        }
+
+        return $content;
     }
 
 

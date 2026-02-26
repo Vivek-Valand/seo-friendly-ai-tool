@@ -230,12 +230,12 @@ window.ChatApp = {
             $container.empty();
             
             if (response.messages && response.messages.length > 0) {
-                $('#empty-state').hide();
+                $('#empty-state').addClass('hidden').css('display', '');
                 response.messages.forEach(msg => {
                     this.appendMessage(msg.role, msg.content, false);
                 });
             } else {
-                $('#empty-state').show();
+                $('#empty-state').removeClass('hidden').css('display', '');
             }
 
             this.conversationId = response.conversation_id;
@@ -253,7 +253,7 @@ window.ChatApp = {
         if (this.loading) return;
         this.conversationId = null;
         $('#chat-messages-container').empty();
-        $('#empty-state').show();
+        $('#empty-state').removeClass('hidden').css('display', '');
         window.history.pushState({}, '', '/');
         this.updateActiveSidebarItem();
     },
@@ -313,7 +313,7 @@ window.ChatApp = {
     },
 
     appendMessage(role, content, scroll = true) {
-        $('#empty-state').hide();
+        $('#empty-state').addClass('hidden').css('display', '');
         
         const template = $('#message-template').html();
         const $msg = $(template);

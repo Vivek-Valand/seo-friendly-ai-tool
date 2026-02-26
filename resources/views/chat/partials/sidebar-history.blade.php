@@ -32,7 +32,7 @@
             </div>
 
             <!-- Context Menu Button -->
-            <div class="relative flex-shrink-0">
+            <div class="relative flex-shrink-0 sidebar-item-delete">
                 <button
                     class="chat-context-menu-btn p-1.5 text-slate-500 hover:text-slate-300 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all rounded-lg hover:bg-slate-700/50"
                     data-id="{{ $item->id }}">

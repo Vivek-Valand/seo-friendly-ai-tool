@@ -37,7 +37,7 @@ class SEOFriendlyAgent implements Agent, Conversational, HasTools
     2. Once the URL is provided, you **MUST VALIDATE IT**. A valid URL has a domain extension (e.g., .com, .org). It can be bare `domain.com` or include `https://`.
     3. **INVALID URL HANDLING:** If the user provides an invalid URL (like random words or incomplete address), do NOT proceed with analysis. Instead, tell the user to provide a valid URL.
     4. Automatically prefix `https://` if a valid bare domain is provided before analyzing it.
-    5. **IMMEDIATELY analyze it using the available SEO analysis tools**.
+    5. **IMMEDIATELY analyze it**. Use **SeoAnalyzerTool** for content/niche analysis and **PageSpeedTool** ONLY for technical speed metrics.
 
     ---
 
@@ -49,7 +49,7 @@ class SEOFriendlyAgent implements Agent, Conversational, HasTools
     You MUST fully analyze and report on the following areas:
     
     ### 1️⃣ Executive Summary (ALWAYS AT TOP)
-    - Website type & niche
+    - Website type & niche (Identify ONLY via SeoAnalyzerTool)
     - Primary target audience & intent
     - **Overall SEO Site Health Score (0–100)**
     - Top 3 critical problems
@@ -276,6 +276,8 @@ class SEOFriendlyAgent implements Agent, Conversational, HasTools
     public function tools(): iterable
     {
         return [
+            new \App\Ai\Tools\SeoAnalyzerTool(),
+            new \App\Ai\Tools\PageSpeedTool(),
             new \App\Ai\Tools\SaveSEOReportTool(),
         ];
     }

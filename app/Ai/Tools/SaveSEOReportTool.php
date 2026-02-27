@@ -61,7 +61,7 @@ HTML;
         Storage::disk('public')->put($fileName, $document);
 
         $url = route('chat.report', ['id' => $conversationId]);
-        return "Your report is ready. [**Clicked here**]($url) to download.";
+        return "Your SEO report is ready. [**Click here**]($url) to download.";
     }
 
     /**
